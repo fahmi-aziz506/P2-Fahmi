@@ -26,13 +26,7 @@
     },
     "autoload": {
         "files": [
-            "app/Helpers/AutoNumberSatuan.php",
-            "app/Helpers/AutoNumberAlat.php",
-            "app/Helpers/AutoNumberPeminjaman.php",
-            "app/Helpers/AutoNumberKategori.php",
-            "app/Helpers/AutoNumberMerk.php",
-            "app/Helpers/AutoNumberSparePart.php",
-            "app/Helpers/AutoNumberService.php"
+            "app/Helpers/AutoNumberKategori.php"
         ],
         "psr-4": {
             "App\\": "app/",

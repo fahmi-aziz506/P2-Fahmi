@@ -151,78 +151,155 @@
                             </div>
                         </div>
 
-                        <table id="datatables-reponsive" class="table table-striped" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Nama outlet</th>
-                                    <th>alamat</th>
-                                    <th>Kecamatan Perusahaan</th>
-                                    <th>Kota Perusahaan</th>
-                                    <th>Provinsi Perusahaan</th>
-                                    <th>Kode Pos</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($outlet as $d)
-                                    <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $d->nama_outlet }}</td>
-                                        <td>{{ $d->alamat }}</td>
-                                        <td>{{ $d->kecamatan_perusahaan }}</td>
-                                        <td>{{ $d->kota_perusahaan }}</td>
-                                        <td>{{ $d->provinsi_perusahaan }}</td>
-                                        <td>{{ $d->kode_pos }}</td>
-                                        <td>
-                                            <a style="color: white"
-                                                href="{{ route('outlet.index', ['edit' => $d->id_outlet]) }}"
-                                                class="btn btn-primary"><i class="fas fa-fw fa-pencil-alt"></i> Edit</a> |
-                                            <a style="color: white; "data-bs-toggle="modal"
-                                                data-bs-target="#delete{{ $d->id_outlet }}" class="btn btn-danger"><i
-                                                    class="fas fa-fw fa-trash-alt"></i> Hapus</a>
-                                        </td>
-                                    </tr>
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 class="card-title" style="font-size: 25px;">Tables Outlet</h2><br>
+                                <a style="color:white;" class="btn btn-info" href="{{ route('outlet.laporan') }}">
+                                    <i class="fa fa-save"></i> Laporan</a>
+                            </div>
 
-                                    <div class="modal modal-colored modal-danger fade" id="delete{{ $d->id_outlet }}"
-                                        tabindex="-1" role="dialog" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">Konfirmasi Hapus</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
-                                                </div>
+                            <div class="card-body">
+                                <table id="datatables-reponsive" class="table table-striped" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Nama outlet</th>
+                                            <th>Kecamatan Perusahaan</th>
+                                            <th>Kota Perusahaan</th>
+                                            <th>Provinsi Perusahaan</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($outlet as $d)
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $d->nama_outlet }}</td>
+                                                <td>{{ $d->kecamatan_perusahaan }}</td>
+                                                <td>{{ $d->kota_perusahaan }}</td>
+                                                <td>{{ $d->provinsi_perusahaan }}</td>
+                                                <td>
+                                                    <a style="color: white"
+                                                        href="{{ route('outlet.index', ['edit' => $d->id_outlet]) }}"
+                                                        class="btn btn-primary"><i
+                                                            class="fas fa-fw fa-pencil-alt"></i></a> |
+                                                    <a style="color: white; "data-bs-toggle="modal"
+                                                        data-bs-target="#delete{{ $d->id_outlet }}"
+                                                        class="btn btn-danger"><i class="fas fa-fw fa-trash-alt"></i></a>
+                                                    |
+                                                    <a class="btn btn-success" data-bs-toggle="modal"
+                                                        data-bs-target="#detail{{ $d->id_outlet }}">
+                                                        <i class="fas fa-exclamation-circle"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
 
-                                                <div class="modal-body m-3">
-                                                    <p class="mb-0 text-white">Apakah kamu yakin ingin
-                                                        menghapus data
-                                                        <b style="font-size: 20px; color:black">
-                                                            {{ $d->nama_outlet }}</b>
-                                                    </p>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <form
-                                                        action="{{ route('outlet.delete', ['id_outlet' => $d->id_outlet]) }}"
-                                                        method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="button" class="btn btn-light"
-                                                            data-bs-dismiss="modal">Tutup</button>
-                                                        <button type="submit" class="btn btn-light">ya, Hapus</button>
-                                                    </form>
+                                            {{-- Modal Detail --}}
+                                            <div class="modal fade" id="detail{{ $d->id_outlet }}" tabindex="-1"
+                                                role="dialog" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Detail Outlet</h5>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+
+                                                        <div class="modal-body">
+                                                            <label for="nama_outlet">Nama Outlet</label>
+                                                            <input style="background-color:gray; color:white;"
+                                                                class="form-control" type="text" id="nama_outlet"
+                                                                value="{{ $d->nama_outlet }}" readonly>
+
+                                                            <br>
+
+                                                            <label for="kecamatan_perusahaan">Kecamatan Perusahaan</label>
+                                                            <input style="background-color:gray; color:white;"
+                                                                class="form-control" type="text"
+                                                                id="kecamatan_perusahaan"
+                                                                value="{{ $d->kecamatan_perusahaan }}" readonly>
+
+                                                            <br>
+
+                                                            <label for="kota_perusahaan">Kota Perusahaan</label>
+                                                            <input style="background-color:gray; color:white;"
+                                                                class="form-control" type="text" id="kota_perusahaan"
+                                                                value="{{ $d->kota_perusahaan }}" readonly>
+
+                                                            <br>
+
+                                                            <label for="provinsi_perusahaan">Provinsis Perusahaan</label>
+                                                            <input style="background-color:gray; color:white;"
+                                                                class="form-control" type="text"
+                                                                id="provinsi_perusahaan"
+                                                                value="{{ $d->provinsi_perusahaan }}" readonly>
+
+                                                            <br>
+
+                                                            <label for="alamat">Alamat </label>
+                                                            <input style="background-color:gray; color:white;"
+                                                                class="form-control" type="text" id="alamat"
+                                                                value="{{ $d->alamat }}" readonly>
+
+                                                            <label for="kode_pos">Kode Pos</label>
+                                                            <input style="background-color:gray; color:white;"
+                                                                class="form-control" type="text" id="kode_pos"
+                                                                value="{{ $d->kode_pos }}" readonly>
+
+                                                            <br>
+                                                        </div>
+
+
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                @endforeach
 
-                            </tbody>
-                        </table>
+                                            <div class="modal modal-colored modal-danger fade"
+                                                id="delete{{ $d->id_outlet }}" tabindex="-1" role="dialog"
+                                                aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Konfirmasi Hapus</h5>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+
+                                                        <div class="modal-body m-3">
+                                                            <p class="mb-0 text-white">Apakah kamu yakin ingin
+                                                                menghapus data
+                                                                <b style="font-size: 20px; color:black">
+                                                                    {{ $d->nama_outlet }}</b>
+                                                            </p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <form
+                                                                action="{{ route('outlet.delete', ['id_outlet' => $d->id_outlet]) }}"
+                                                                method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="button" class="btn btn-light"
+                                                                    data-bs-dismiss="modal">Tutup</button>
+                                                                <button type="submit" class="btn btn-light">ya,
+                                                                    Hapus</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 @endsection

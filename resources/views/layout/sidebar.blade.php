@@ -58,15 +58,23 @@ $setting = Setting::with('outlet')->first();
             @endif
 
             @if (auth()->user()->role == 'supervisor')
-                <small class="btn btn-success">{{ Auth::User()->role }}</small>
+                <small class="btn btn-secondary">{{ Auth::User()->role }}</small>
             @endif
 
-            @if (auth()->user()->role == 'teknisi')
+            @if (auth()->user()->role == 'kitchen')
+                <small class="btn btn-warning">{{ Auth::User()->role }}</small>
+            @endif
+
+            @if (auth()->user()->role == 'kasir')
                 <small class="btn btn-primary">{{ Auth::User()->role }}</small>
             @endif
 
-            @if (auth()->user()->role == 'pengguna')
-                <small class="btn btn-warning">{{ Auth::User()->role }}</small>
+            @if (auth()->user()->role == 'waiter')
+                <small class="btn btn-danger">{{ Auth::User()->role }}</small>
+            @endif
+
+            @if (auth()->user()->role == 'pelanggan')
+                <small class="btn btn-success">{{ Auth::User()->role }}</small>
             @endif
 
         </div>
@@ -111,8 +119,7 @@ $setting = Setting::with('outlet')->first();
 
 
             {{-- Start user & setting --}}
-            @if (auth()->user()->role == 'pengguna')
-            @else
+            @if (auth()->user()->role == 'admin' || auth()->user()->role == 'supervisor')
                 <li class="sidebar-header"> User & Setting </li>
                 <li class="sidebar-item">
                     <a data-bs-target="#pages" data-bs-toggle="collapse" class="sidebar-link collapsed">
@@ -165,6 +172,7 @@ $setting = Setting::with('outlet')->first();
                             class="align-middle">User</span>
                     </a>
                 </li> --}}
+            @else
             @endif
 
             @if (auth()->user()->role == 'admin')

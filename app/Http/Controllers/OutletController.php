@@ -21,11 +21,11 @@ class OutletController extends Controller
         return view('outlet.index', compact('outlet', 'editOutlet'));
     }
 
-    public function create()
-    {
+    // public function create()
+    // {
 
-        return view('outlet.create');
-    }
+    //     return view('outlet.create');
+    // }
 
     public function store(Request $request)
     {
@@ -34,9 +34,9 @@ class OutletController extends Controller
         $validator = Validator::make($request->all(), [
             'nama_outlet' => 'required',
             'alamat' => 'nullable',
-            'kecamatan_perusahaan' => 'nullable',
-            'kota_perusahaan' => 'nullable',
-            'provinsi_perusahaan' => 'nullable',
+            'kecamatan_perusahaan' => 'required',
+            'kota_perusahaan' => 'required',
+            'provinsi_perusahaan' => 'required',
             'kode_pos' => 'nullable',
         ]);
 
@@ -72,12 +72,12 @@ class OutletController extends Controller
         $outlet = Outlet::findOrFail($id_outlet);
 
         $validator = Validator::make($request->all(), [
-            'nama_outlet' => 'nullable',
-            'alamat' => 'nullable',
-            'kecamatan_perusahaan' => 'nullable',
-            'kota_perusahaan' => 'nullable',
-            'provinsi_perusahaan' => 'nullable',
-            'kode_pos' => 'nullable',
+            'nama_outlet' => 'required',
+            'alamat' => 'required',
+            'kecamatan_perusahaan' => 'required',
+            'kota_perusahaan' => 'required',
+            'provinsi_perusahaan' => 'required',
+            'kode_pos' => 'required',
         ]);
 
         if ($validator->fails()) return redirect()->back()->withInput()->withErrors($validator);

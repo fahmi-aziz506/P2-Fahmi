@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\kategori;
+use App\Models\outlet;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -54,5 +56,21 @@ class LaporanController extends Controller
         $user = User::with('outlet')->where('role', 'pelanggan')->get();
 
         return view('user.laporan_pelanggan', compact('user', 'paginate'));
+    }
+
+    public function kategori()
+    {
+        $paginate = kategori::paginate(9);
+        $kategori = kategori::all();
+
+        return view('kategori.laporan', compact('kategori', 'paginate'));
+    }
+
+    public function outlet()
+    {
+        $paginate = outlet::paginate(9);
+        $outlet = outlet::all();
+
+        return view('outlet.laporan', compact('outlet', 'paginate'));
     }
 }

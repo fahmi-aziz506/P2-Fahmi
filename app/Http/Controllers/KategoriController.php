@@ -9,18 +9,24 @@ use Illuminate\Support\Facades\Validator;
 
 class KategoriController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
 
-        $kategori = kategori::get();
-        return view('kategori.index', compact('kategori'));
+        $kategori = kategori::all();
+        $editkategori = null;
+
+        if ($request->has('edit')) {
+            $editkategori = kategori::findOrFail($request->edit);
+        }
+
+        return view('kategori.index', compact('kategori', 'editkategori'));
     }
 
-    public function create()
-    {
+    // public function create()
+    // {
 
-        return view('kategori.create', compact('kategori'));
-    }
+    //     return view('kategori.create', compact('kategori'));
+    // }
 
     public function store(Request $request)
     {
@@ -30,7 +36,7 @@ class KategoriController extends Controller
         // dd($request->all());
         $validator = Validator::make($request->all(), [
             'nama_kategori' => 'required',
-            'keterangan' => 'nullable',
+            'deskripsi' => 'nullable',
         ]);
 
         if ($validator->fails()) return redirect()->back()->withInput()->withErrors($validator);
@@ -38,7 +44,7 @@ class KategoriController extends Controller
 
         $kategori['kode_kategori']   =   generateKodekategori();
         $kategori['nama_kategori']   =   $request->nama_kategori;
-        $kategori['keterangan']    =   $request->keterangan;
+        $kategori['deskripsi']    =   $request->deskripsi;
 
 
         // simpan data
@@ -49,20 +55,20 @@ class KategoriController extends Controller
 
 
     // Edit data
-    public function edit(Request $request, $id_kategori)
-    {
-        $data = kategori::find($id_kategori);
+    // public function edit(Request $request, $id_kategori)
+    // {
+    //     $data = kategori::find($id_kategori);
 
-        // dd($data);
-        return view('kategori.edit', compact('data'));
-    }
+    //     // dd($data);
+    //     return view('kategori.edit', compact('data'));
+    // }
 
     public function update(Request $request, $id_kategori)
     {
         // dd($request->all());
         $validator = Validator::make($request->all(), [
             'nama_kategori' => 'required',
-            'keterangan' => 'nullable',
+            'deskripsi' => 'nullable',
         ]);
 
         if ($validator->fails()) return redirect()->back()->withInput()->withErrors($validator);
@@ -70,7 +76,7 @@ class KategoriController extends Controller
         $find = kategori::find($id_kategori);
 
         $kategori['nama_kategori']       =   $request->nama_kategori;
-        $kategori['keterangan']        =   $request->keterangan;
+        $kategori['deskripsi']        =   $request->deskripsi;
 
         // simpan data
         $find->update($kategori);

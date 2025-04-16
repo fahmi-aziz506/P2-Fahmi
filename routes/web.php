@@ -87,6 +87,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/laporan/user/kasir', [LaporanController::class, 'kasir'])->name('user.laporan_kasir');
     Route::get('/laporan/user/waiter', [LaporanController::class, 'waiter'])->name('user.laporan_waiter');
     Route::get('/laporan/user/pelanggan', [LaporanController::class, 'pelanggan'])->name('user.laporan_pelanggan');
+    Route::get('/laporan/laporan/kategori', [LaporanController::class, 'kategori'])->name('kategori.laporan');
+    Route::get('/laporan/laporan/outlet', [LaporanController::class, 'outlet'])->name('outlet.laporan');
 });
 
 Route::middleware(['auth', 'outlet.filter'])->group(function () {
