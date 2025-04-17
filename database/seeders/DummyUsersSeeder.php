@@ -39,7 +39,6 @@ class DummyUsersSeeder extends Seeder
                 'password'  => bcrypt('12345678'),
                 'telepon'   => '099',
                 'foto'      => '0',
-                'outlet_id' => $outlet->id_outlet,
             ],
             [
                 'name'      => 'mas supervisor',

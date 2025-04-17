@@ -16,48 +16,13 @@ class KategoriSeeder extends Seeder
         $userData = [
             [
                 'kode_kategori' => 'KAT - 0001',
-                'nama_kategori' => 'Body',
-                'keterangan' => ''
+                'nama_kategori' => 'Makanan',
+                'deskripsi' => ''
             ],
             [
                 'kode_kategori' => 'KAT - 0002',
-                'nama_kategori' => 'Oli',
-                'keterangan' => ''
-            ],
-            [
-                'kode_kategori' => 'KAT - 0003',
-                'nama_kategori' => 'Socket',
-                'keterangan' => ''
-            ],
-            [
-                'kode_kategori' => 'KAT - 0004',
-                'nama_kategori' => 'Lampu',
-                'keterangan' => ''
-            ],
-            [
-                'kode_kategori' => 'KAT - 0005',
-                'nama_kategori' => 'Ban',
-                'keterangan' => ''
-            ],
-            [
-                'kode_kategori' => 'KAT - 0006',
-                'nama_kategori' => 'Aki',
-                'keterangan' => ''
-            ],
-            [
-                'kode_kategori' => 'KAT - 0007',
-                'nama_kategori' => 'Busi',
-                'keterangan' => ''
-            ],
-            [
-                'kode_kategori' => 'KAT - 0008',
-                'nama_kategori' => 'kampas',
-                'keterangan' => ''
-            ],
-            [
-                'kode_kategori' => 'KAT - 0009',
-                'nama_kategori' => 'Filter',
-                'keterangan' => ''
+                'nama_kategori' => 'Minuman',
+                'deskripsi' => ''
             ],
 
         ];

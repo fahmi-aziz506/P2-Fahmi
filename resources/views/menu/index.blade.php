@@ -1,16 +1,16 @@
 @extends('layout.main')
 @section('content')
     @php
-        $isEdit = isset($editUser);
+        $isEdit = isset($editMenu);
     @endphp
     <div class="container-fluid">
         <div class="header">
-            <h2 class="header-title">Tables User Kasir</h2>
+            <h2 class="header-title">Tables Menu</h2>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb gap-2">
                     <li class="breadcrumb-item"><a href='{{ route('user.dashboard') }}'>Dashboard</a></li>
                     <span style="color: white">/</span>
-                    <li class="breadcrumb-item active" aria-current="page">Tables User Kasir</li>
+                    <li class="breadcrumb-item active" aria-current="page">Tables Menu</li>
                 </ol>
             </nav>
         </div>
@@ -20,7 +20,7 @@
                 {{-- Card Form --}}
                 <div class="card mb-4">
                     <div class="card-header">
-                        <strong>{{ $isEdit ? 'Edit User' : 'Tambah User Baru' }}</strong>
+                        <strong>{{ $isEdit ? 'Edit Menu' : 'Tambah Menu Baru' }}</strong>
                     </div>
                     <div class="card-body">
 
@@ -51,7 +51,7 @@
                             @endif
                         @endforeach
 
-                        <form action="{{ $isEdit ? route('user.update', $editUser->id) : route('user.store') }}"
+                        <form action="{{ $isEdit ? route('menu.update', $editMenu->id_menu) : route('menu.store') }}"
                             method="POST" enctype="multipart/form-data">
                             @csrf
                             @if ($isEdit)
@@ -59,54 +59,24 @@
                             @endif
 
                             <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label for="name">Nama User</label>
-                                    <input type="text" name="name" class="form-control"
-                                        value="{{ old('name', $isEdit ? $editUser->name : '') }}">
-                                </div>
-
-                                <div class="col-md-6">
-                                    <label for="email">Email</label>
-                                    <input type="email" name="email"
-                                        class="form-control {{ $isEdit ? 'bg-secondary text-white' : '' }}"
-                                        style="{{ $isEdit ? 'pointer-events: none;' : '' }}"
-                                        value="{{ old('email', $isEdit ? $editUser->email : '') }}"
-                                        {{ $isEdit ? 'readonly' : '' }}>
-                                </div>
-
-
-                                @if (!$isEdit)
-                                    <div class="col-md-6">
-                                        <label for="password">Password</label>
-                                        <input type="password" name="password" class="form-control"
-                                            value="{{ old('password') }}">
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <label for="password1">Konfirmasi Password</label>
-                                        <input type="password" name="password1" class="form-control"
-                                            value="{{ old('password1') }}">
-                                    </div>
-                                @endif
-
-                                <div class="col-md-3">
-                                    <label for="telepon">No Telepon</label>
-                                    <input type="number" name="telepon" class="form-control"
-                                        value="{{ old('telepon', $isEdit ? $editUser->telepon : '') }}">
+                                <div class="col-md-10">
+                                    <label for="nama_menu">Nama Menu</label>
+                                    <input type="text" name="nama_menu" class="form-control"
+                                        value="{{ old('nama_menu', $isEdit ? $editMenu->nama_menu : '') }}">
                                 </div>
 
                                 <div class="col-md-3">
-                                    <label for="role">Role</label>
-                                    <select name="role" class="form-control">
-                                        <option value="">Pilih Role</option>
-                                        @foreach (['kasir'] as $role)
-                                            <option value="{{ $role }}"
-                                                {{ old('role', $isEdit ? $editUser->role : '') == $role ? 'selected' : '' }}>
-                                                {{ ucfirst($role) }}
+                                    <label for="outlet_id">Kategori</label>
+                                    <select name="kategori_id" class="form-control">
+                                        <option value="">Pilih kategori</option>
+                                        @foreach ($kategori as $out)
+                                            <option value="{{ $out->id_kategori }}"
+                                                {{ old('kategori_id', $isEdit ? $editMenu->kategori_id : '') == $out->id_kategori ? 'selected' : '' }}>
+                                                {{ $out->nama_kategori }}
                                             </option>
                                         @endforeach
                                     </select>
-                                    @error('role')
+                                    @error('kategori_id')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
@@ -118,7 +88,7 @@
                                             <option value="">Pilih Outlet</option>
                                             @foreach ($outlet as $out)
                                                 <option value="{{ $out->id_outlet }}"
-                                                    {{ old('outlet_id', $isEdit ? $editUser->outlet_id : '') == $out->id_outlet ? 'selected' : '' }}>
+                                                    {{ old('outlet_id', $isEdit ? $editMenu->outlet_id : '') == $out->id_outlet ? 'selected' : '' }}>
                                                     {{ $out->nama_outlet }}
                                                 </option>
                                             @endforeach
@@ -135,44 +105,47 @@
 
 
                                 <div class="col-md-3">
-                                    <label for="jenkel">Jenis Kelamin</label>
-                                    <select name="jenkel" class="form-control">
-                                        <option value="">Pilih Jenis Kelamin</option>
-                                        @foreach (['laki-laki', 'perempuan', 'memilih_tidak_menjawab'] as $jk)
-                                            <option value="{{ $jk }}"
-                                                {{ old('jenkel', $isEdit ? $editUser->jenkel : '') == $jk ? 'selected' : '' }}>
-                                                {{ ucfirst(str_replace('_', ' ', $jk)) }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('jenkel')
+                                    <label for="harga">Harga Menu</label>
+                                    <input type="text" name="harga" class="form-control"
+                                        value="{{ old('harga', $isEdit ? $editMenu->harga : '') }}">
+                                    @error('harga')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label for="stok">Stok</label>
+                                    <input type="text" name="stok" class="form-control"
+                                        value="{{ old('stok', $isEdit ? $editMenu->stok : '') }}">
+                                    @error('harga')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label for="foto"><i class="fa fa-cloud-upload"></i> Tambah foto</label><br>
+                                    <label for="foto_menu"><i class="fa fa-cloud-upload"></i> Tambahkan Foto_menu
+                                        Menu</label><br>
 
-                                    @if ($isEdit && $editUser->foto)
-                                        <input type="file" id="foto" class="dropify" data-max-file-size="4m"
-                                            name="foto"
-                                            data-default-file="{{ asset('storage/foto_user/' . $editUser->foto) }}">
+                                    @if ($isEdit && $editMenu->foto_menu)
+                                        <input type="file" id="foto_menu" class="dropify" data-max-file-size="4m"
+                                            name="foto_menu"
+                                            data-default-file="{{ asset('storage/foto_menu/' . $editMenu->foto_menu) }}">
                                         <label for="hapus">
-                                            <input id="hapus" type="checkbox" name="delete_foto"> Hapus foto
+                                            <input id="hapus" type="checkbox" name="delete_foto_menu"> Hapus foto_menu
                                         </label>
                                     @else
-                                        <input type="file" id="foto" class="dropify" data-max-file-size="5m"
-                                            name="foto">
+                                        <input type="file" id="foto_menu" class="dropify" data-max-file-size="5m"
+                                            name="foto_menu">
                                     @endif
 
-                                    @error('foto')
+                                    @error('foto_menu')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label for="alamat">Alamat</label>
-                                    <textarea rows="2" type="text" name="alamat" class="form-control">{{ old('alamat', $isEdit ? $editUser->alamat : '') }}</textarea>
+                                    <label for="deskripsi">Deskripsi</label>
+                                    <textarea rows="2" type="text" name="deskripsi" class="form-control">{{ old('deskripsi', $isEdit ? $editMenu->alamat : '') }}</textarea>
                                 </div>
 
 
@@ -181,7 +154,7 @@
                                         {{ $isEdit ? 'Update' : '+ Simpan' }}
                                     </button>
                                     @if ($isEdit)
-                                        <a style="color: white;" href="{{ route('user.index_kasir') }}"
+                                        <a style="color: white;" href="{{ route('menu.index') }}"
                                             class="btn btn-secondary">Batal</a>
                                     @endif
                                 </div>
@@ -193,8 +166,8 @@
                 {{-- Card Table --}}
                 <div class="card">
                     <div class="card-header">
-                        <h2 class="card-title" style="font-size: 25px;">Tables User Kasir</h2><br>
-                        <a style="color:white;" class="btn btn-info" href="{{ route('user.laporan_kasir') }}">
+                        <h2 class="card-title" style="font-size: 25px;">Tables Menu</h2><br>
+                        <a style="color:white;" class="btn btn-info" href="{{ route('menu.index') }}">
                             <i class="fa fa-save"></i> Laporan</a>
                     </div>
 
@@ -204,47 +177,44 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Foto</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
+                                    <th>Nama Menu</th>
+                                    <th>Kategori</th>
                                     <th>Outlet</th>
-                                    <th>Jenis Kelamin</th>
-                                    <th>Role</th>
+                                    <th>Harga</th>
+                                    <th>Stok</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($user as $d)
+                                @foreach ($menu as $d)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>
-                                            @php
-                                                $default = asset('form/img/avatars/avatars-default.png');
-                                                $foto =
-                                                    !$d->foto || $d->foto == '0' || $d->foto == 'null'
-                                                        ? $default
-                                                        : asset('storage/foto_user/' . $d->foto);
-                                            @endphp
-                                            <img src="{{ $foto }}"
+                                        <td><img src="{{ asset('storage/foto_menu/' . $d->foto_menu) }}"
                                                 style="width:50px; height:50px; border-radius:50%;">
                                         </td>
-                                        <td>{{ $d->name }}</td>
-                                        <td>{{ $d->email }}</td>
-                                        <td>{{ $d->outlet->nama_outlet ?? '-' }}</td>
-                                        <td>{{ $d->jenkel }}</td>
-                                        <td><span class="btn mb-1 btn-primary"><i class="fas fa-info"></i>
-                                                {{ $d->role }}</span></td>
+                                        <td>{{ $d->nama_menu }}</td>
+                                        <td>{{ $d->kategori->nama_kategori }}</td>
+                                        <td>{{ $d->outlet->nama_outlet }}</td>
+                                        <td>Rp {{ number_format($d->harga, 2) }}</td>
+                                        <td>
+                                            @if ($d->stok == '0')
+                                                <b style="color: black">Stok Habis</b>
+                                            @else
+                                                {{ $d->stok }}
+                                            @endif
+                                        </td>
                                         <td>
                                             @if (auth()->user()->role == 'admin' || auth()->user()->role == 'supervisor')
                                                 <a style="color: white;" class="btn btn-primary"
-                                                    href="{{ route('user.index_kasir', ['edit' => $d->id]) }}">
+                                                    href="{{ route('menu.index', ['edit' => $d->id_menu]) }}">
                                                     <i class="fas fa-pencil-alt"></i>
                                                 </a> |
                                                 <a class="btn btn-danger" data-bs-toggle="modal"
-                                                    data-bs-target="#delete{{ $d->id }}">
+                                                    data-bs-target="#delete{{ $d->id_menu }}">
                                                     <i class="fas fa-trash-alt"></i>
                                                 </a> |
                                                 <a class="btn btn-success" data-bs-toggle="modal"
-                                                    data-bs-target="#detail{{ $d->id }}">
+                                                    data-bs-target="#detail{{ $d->id_menu }}">
                                                     <i class="fas fa-exclamation-circle"></i>
                                                 </a>
                                             @endif
@@ -252,12 +222,12 @@
                                     </tr>
 
                                     {{-- Modal Detail --}}
-                                    <div class="modal fade" id="detail{{ $d->id }}" tabindex="-1"
+                                    <div class="modal fade" id="detail{{ $d->id_menu }}" tabindex="-1"
                                         role="dialog" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title">Detail User</h5>
+                                                    <h5 class="modal-title">Detail Menu</h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                         aria-label="Close"></button>
                                                 </div>
@@ -359,7 +329,7 @@
                                                         $foto =
                                                             !$d->foto || $d->foto == '0' || $d->foto == 'null'
                                                                 ? $default
-                                                                : asset('storage/foto_user/' . $d->foto);
+                                                                : asset('storage/foto_menu/' . $d->foto_menu);
                                                     @endphp
                                                     <img src="{{ $foto }}"
                                                         style="width:100px; height:100px; border-radius:50%;">
@@ -388,7 +358,7 @@
                                                     <p>Yakin ingin menghapus <strong>{{ $d->name }}</strong>?</p>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <form action="{{ route('user.delete', ['id' => $d->id]) }}"
+                                                    <form action="{{ route('menu.delete', ['id_menu' => $d->id_menu]) }}"
                                                         method="POST">
                                                         @csrf
                                                         @method('DELETE')

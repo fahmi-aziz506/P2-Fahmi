@@ -18,44 +18,150 @@ class LaporanController extends Controller
         return view('user.laporan_admin', compact('user', 'paginate'));
     }
 
-    public function supervisor()
+    public function supervisor(Request $request)
     {
-        $paginate = User::paginate(9);
-        $user = User::with('outlet')->where('role', 'supervisor')->get();
+        $outlets = \App\Models\Outlet::all();
+        $selectedOutlet = $request->outlet_id;
 
-        return view('user.laporan_supervisor', compact('user', 'paginate'));
+        // Jika user admin
+        if (auth()->user()->role == 'admin') {
+            if ($selectedOutlet) {
+                $user = User::with('outlet')
+                    ->where('role', 'supervisor')
+                    ->where('outlet_id', $selectedOutlet)
+                    ->paginate(10); // PAGINATE langsung
+
+            } else {
+                $user = collect(); // kosong, tapi biar aman di view
+            }
+        } else {
+            // Jika bukan admin, tampilkan data sesuai outlet miliknya
+            $user = User::with('outlet')
+                ->where('role', 'supervisor')
+                ->where('outlet_id', auth()->user()->outlet_id)
+                ->paginate(10); // PAGINATE juga di sini
+
+            $selectedOutlet = auth()->user()->outlet_id;
+        }
+
+        return view('user.laporan_supervisor', compact('user', 'outlets', 'selectedOutlet'));
     }
 
-    public function kitchen()
+    public function kitchen(Request $request)
     {
-        $paginate = User::paginate(9);
-        $user = User::with('outlet')->where('role', 'kitchen')->get();
+        $outlets = \App\Models\Outlet::all();
+        $selectedOutlet = $request->outlet_id;
 
-        return view('user.laporan_kitchen', compact('user', 'paginate'));
+        // Jika user admin
+        if (auth()->user()->role == 'admin') {
+            if ($selectedOutlet) {
+                $user = User::with('outlet')
+                    ->where('role', 'kitchen')
+                    ->where('outlet_id', $selectedOutlet)
+                    ->paginate(10); // PAGINATE langsung
+
+            } else {
+                $user = collect(); // kosong, tapi biar aman di view
+            }
+        } else {
+            // Jika bukan admin, tampilkan data sesuai outlet miliknya
+            $user = User::with('outlet')
+                ->where('role', 'kitchen')
+                ->where('outlet_id', auth()->user()->outlet_id)
+                ->paginate(10); // PAGINATE juga di sini
+
+            $selectedOutlet = auth()->user()->outlet_id;
+        }
+
+        return view('user.laporan_kitchen', compact('user', 'outlets', 'selectedOutlet'));
     }
 
-    public function kasir()
+    public function kasir(Request $request)
     {
-        $paginate = User::paginate(9);
-        $user = User::with('outlet')->where('role', 'kasir')->get();
+        $outlets = \App\Models\Outlet::all();
+        $selectedOutlet = $request->outlet_id;
 
-        return view('user.laporan_kasir', compact('user', 'paginate'));
+        // Jika user admin
+        if (auth()->user()->role == 'admin') {
+            if ($selectedOutlet) {
+                $user = User::with('outlet')
+                    ->where('role', 'kasir')
+                    ->where('outlet_id', $selectedOutlet)
+                    ->paginate(10); // PAGINATE langsung
+
+            } else {
+                $user = collect(); // kosong, tapi biar aman di view
+            }
+        } else {
+            // Jika bukan admin, tampilkan data sesuai outlet miliknya
+            $user = User::with('outlet')
+                ->where('role', 'kasir')
+                ->where('outlet_id', auth()->user()->outlet_id)
+                ->paginate(10); // PAGINATE juga di sini
+
+            $selectedOutlet = auth()->user()->outlet_id;
+        }
+
+        return view('user.laporan_kasir', compact('user', 'outlets', 'selectedOutlet'));
     }
 
-    public function waiter()
-    {
-        $paginate = User::paginate(9);
-        $user = User::with('outlet')->where('role', 'waiter')->get();
 
-        return view('user.laporan_waiter', compact('user', 'paginate'));
+    public function waiter(Request $request)
+    {
+        $outlets = \App\Models\Outlet::all();
+        $selectedOutlet = $request->outlet_id;
+
+        // Jika user admin
+        if (auth()->user()->role == 'admin') {
+            if ($selectedOutlet) {
+                $user = User::with('outlet')
+                    ->where('role', 'waiter')
+                    ->where('outlet_id', $selectedOutlet)
+                    ->paginate(10); // PAGINATE langsung
+
+            } else {
+                $user = collect(); // kosong, tapi biar aman di view
+            }
+        } else {
+            // Jika bukan admin, tampilkan data sesuai outlet miliknya
+            $user = User::with('outlet')
+                ->where('role', 'waiter')
+                ->where('outlet_id', auth()->user()->outlet_id)
+                ->paginate(10); // PAGINATE juga di sini
+
+            $selectedOutlet = auth()->user()->outlet_id;
+        }
+
+        return view('user.laporan_waiter', compact('user', 'outlets', 'selectedOutlet'));
     }
 
-    public function pelanggan()
+    public function pelanggan(Request $request)
     {
-        $paginate = User::paginate(9);
-        $user = User::with('outlet')->where('role', 'pelanggan')->get();
+        $outlets = \App\Models\Outlet::all();
+        $selectedOutlet = $request->outlet_id;
 
-        return view('user.laporan_pelanggan', compact('user', 'paginate'));
+        // Jika user admin
+        if (auth()->user()->role == 'admin') {
+            if ($selectedOutlet) {
+                $user = User::with('outlet')
+                    ->where('role', 'pelanggan')
+                    ->where('outlet_id', $selectedOutlet)
+                    ->paginate(10); // PAGINATE langsung
+
+            } else {
+                $user = collect(); // kosong, tapi biar aman di view
+            }
+        } else {
+            // Jika bukan admin, tampilkan data sesuai outlet miliknya
+            $user = User::with('outlet')
+                ->where('role', 'pelanggan')
+                ->where('outlet_id', auth()->user()->outlet_id)
+                ->paginate(10); // PAGINATE juga di sini
+
+            $selectedOutlet = auth()->user()->outlet_id;
+        }
+
+        return view('user.laporan_pelanggan', compact('user', 'outlets', 'selectedOutlet'));
     }
 
     public function kategori()

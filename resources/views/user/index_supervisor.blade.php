@@ -113,19 +113,26 @@
 
                                 <div class="col-md-3">
                                     <label for="outlet_id">Outlet</label>
-                                    <select name="outlet_id" class="form-control">
-                                        <option value="">Pilih Outlet</option>
-                                        @foreach ($outlet as $out)
-                                            <option value="{{ $out->id_outlet }}"
-                                                {{ old('outlet_id', $isEdit ? $editUser->outlet_id : '') == $out->id_outlet ? 'selected' : '' }}>
-                                                {{ $out->nama_outlet }}
-                                            </option>
-                                        @endforeach
-                                    </select>
+                                    @if (auth()->user()->role == 'admin')
+                                        <select name="outlet_id" class="form-control">
+                                            <option value="">Pilih Outlet</option>
+                                            @foreach ($outlet as $out)
+                                                <option value="{{ $out->id_outlet }}"
+                                                    {{ old('outlet_id', $isEdit ? $editUser->outlet_id : '') == $out->id_outlet ? 'selected' : '' }}>
+                                                    {{ $out->nama_outlet }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    @else
+                                        <input type="hidden" name="outlet_id" value="{{ auth()->user()->outlet_id }}">
+                                        <input type="text" class="form-control bg-secondary text-white"
+                                            value="{{ auth()->user()->outlet->nama_outlet }}" readonly>
+                                    @endif
                                     @error('outlet_id')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
+
 
                                 <div class="col-md-3">
                                     <label for="jenkel">Jenis Kelamin</label>
@@ -332,7 +339,10 @@
                                                     <label for="outlet_id">Outlet User</label>
                                                     <input style="background-color:gray; color:white;"
                                                         class="form-control" type="text" id="outlet_id"
-                                                        value="{{ $d->outlet->nama_outlet }}" readonly>
+                                                        value="{{ $d->outlet->nama_outlet ?? 'Tidak ada outlet' }}"
+                                                        readonly>
+
+
 
                                                     <br>
 

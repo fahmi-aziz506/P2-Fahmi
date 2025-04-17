@@ -51,145 +51,133 @@
                             @endif
                         @endforeach
 
-                        {{-- @if (auth()->user()->role == 'admin' || auth()->user()->role == 'supervisor') --}}
-                        <form action="{{ $isEdit ? route('user.update', $editUser->id) : route('user.store') }}"
-                            method="POST" enctype="multipart/form-data">
-                            @csrf
-                            @if ($isEdit)
-                                @method('PUT')
-                            @endif
-
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label for="name">Nama User</label>
-                                    <input type="text" name="name" class="form-control"
-                                        value="{{ old('name', $isEdit ? $editUser->name : '') }}">
-                                </div>
-
-                                <div class="col-md-6">
-                                    <label for="email">Email</label>
-                                    <input type="email" name="email"
-                                        class="form-control {{ $isEdit ? 'bg-secondary text-white' : '' }}"
-                                        style="{{ $isEdit ? 'pointer-events: none;' : '' }}"
-                                        value="{{ old('email', $isEdit ? $editUser->email : '') }}"
-                                        {{ $isEdit ? 'readonly' : '' }}>
-                                </div>
-
-
-                                @if (!$isEdit)
-                                    <div class="col-md-6">
-                                        <label for="password">Password</label>
-                                        <input type="password" name="password" class="form-control"
-                                            value="{{ old('password') }}">
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <label for="password1">Konfirmasi Password</label>
-                                        <input type="password" name="password1" class="form-control"
-                                            value="{{ old('password1') }}">
-                                    </div>
+                        @if (auth()->user()->role == 'admin')
+                            <form action="{{ $isEdit ? route('user.update', $editUser->id) : route('user.store') }}"
+                                method="POST" enctype="multipart/form-data">
+                                @csrf
+                                @if ($isEdit)
+                                    @method('PUT')
                                 @endif
 
-                                <div class="col-md-3">
-                                    <label for="telepon">No Telepon</label>
-                                    <input type="number" name="telepon" class="form-control"
-                                        value="{{ old('telepon', $isEdit ? $editUser->telepon : '') }}">
-                                </div>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="name">Nama User</label>
+                                        <input type="text" name="name" class="form-control"
+                                            value="{{ old('name', $isEdit ? $editUser->name : '') }}">
+                                    </div>
 
-                                <div class="col-md-3">
-                                    <label for="role">Role</label>
-                                    <select name="role" class="form-control">
-                                        <option value="">Pilih Role</option>
-                                        @foreach (['admin'] as $role)
-                                            <option value="{{ $role }}"
-                                                {{ old('role', $isEdit ? $editUser->role : '') == $role ? 'selected' : '' }}>
-                                                {{ ucfirst($role) }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('role')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
+                                    <div class="col-md-6">
+                                        <label for="email">Email</label>
+                                        <input type="email" name="email"
+                                            class="form-control {{ $isEdit ? 'bg-secondary text-white' : '' }}"
+                                            style="{{ $isEdit ? 'pointer-events: none;' : '' }}"
+                                            value="{{ old('email', $isEdit ? $editUser->email : '') }}"
+                                            {{ $isEdit ? 'readonly' : '' }}>
+                                    </div>
 
-                                <div class="col-md-3">
-                                    <label for="outlet_id">Outlet</label>
-                                    <select name="outlet_id" class="form-control">
-                                        <option value="">Pilih Outlet</option>
-                                        @foreach ($outlet as $out)
-                                            <option value="{{ $out->id_outlet }}"
-                                                {{ old('outlet_id', $isEdit ? $editUser->outlet_id : '') == $out->id_outlet ? 'selected' : '' }}>
-                                                {{ $out->nama_outlet }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('outlet_id')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
 
-                                <div class="col-md-3">
-                                    <label for="jenkel">Jenis Kelamin</label>
-                                    <select name="jenkel" class="form-control">
-                                        <option value="">Pilih Jenis Kelamin</option>
-                                        @foreach (['laki-laki', 'perempuan', 'memilih_tidak_menjawab'] as $jk)
-                                            <option value="{{ $jk }}"
-                                                {{ old('jenkel', $isEdit ? $editUser->jenkel : '') == $jk ? 'selected' : '' }}>
-                                                {{ ucfirst(str_replace('_', ' ', $jk)) }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('jenkel')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
+                                    @if (!$isEdit)
+                                        <div class="col-md-6">
+                                            <label for="password">Password</label>
+                                            <input type="password" name="password" class="form-control"
+                                                value="{{ old('password') }}">
+                                        </div>
 
-                                <div class="col-md-6">
-                                    <label for="foto"><i class="fa fa-cloud-upload"></i> Tambah foto</label><br>
-
-                                    @if ($isEdit && $editUser->foto)
-                                        <input type="file" id="foto" class="dropify" data-max-file-size="4m"
-                                            name="foto"
-                                            data-default-file="{{ asset('storage/foto_user/' . $editUser->foto) }}">
-                                        <label for="hapus">
-                                            <input id="hapus" type="checkbox" name="delete_foto"> Hapus foto
-                                        </label>
-                                    @else
-                                        <input type="file" id="foto" class="dropify" data-max-file-size="5m"
-                                            name="foto">
+                                        <div class="col-md-6">
+                                            <label for="password1">Konfirmasi Password</label>
+                                            <input type="password" name="password1" class="form-control"
+                                                value="{{ old('password1') }}">
+                                        </div>
                                     @endif
 
-                                    @error('foto')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
+                                    <div class="col-md-4">
+                                        <label for="telepon">No Telepon</label>
+                                        <input type="number" name="telepon" class="form-control"
+                                            value="{{ old('telepon', $isEdit ? $editUser->telepon : '') }}">
+                                    </div>
 
-                                <div class="col-md-6">
-                                    <label for="alamat">Alamat</label>
-                                    <textarea rows="2" type="text" name="alamat" class="form-control">{{ old('alamat', $isEdit ? $editUser->alamat : '') }}</textarea>
-                                </div>
+                                    <div class="col-md-4">
+                                        <label for="role">Role</label>
+                                        <select name="role" class="form-control">
+                                            <option value="">Pilih Role</option>
+                                            @foreach (['admin'] as $role)
+                                                <option value="{{ $role }}"
+                                                    {{ old('role', $isEdit ? $editUser->role : '') == $role ? 'selected' : '' }}>
+                                                    {{ ucfirst($role) }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('role')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label for="jenkel">Jenis Kelamin</label>
+                                        <select name="jenkel" class="form-control">
+                                            <option value="">Pilih Jenis Kelamin</option>
+                                            @foreach (['laki-laki', 'perempuan', 'memilih_tidak_menjawab'] as $jk)
+                                                <option value="{{ $jk }}"
+                                                    {{ old('jenkel', $isEdit ? $editUser->jenkel : '') == $jk ? 'selected' : '' }}>
+                                                    {{ ucfirst(str_replace('_', ' ', $jk)) }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('jenkel')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="foto"><i class="fa fa-cloud-upload"></i> Tambah foto</label><br>
+
+                                        @if ($isEdit && $editUser->foto)
+                                            <input type="file" id="foto" class="dropify" data-max-file-size="4m"
+                                                name="foto"
+                                                data-default-file="{{ asset('storage/foto_user/' . $editUser->foto) }}">
+                                            <label for="hapus">
+                                                <input id="hapus" type="checkbox" name="delete_foto"> Hapus foto
+                                            </label>
+                                        @else
+                                            <input type="file" id="foto" class="dropify" data-max-file-size="5m"
+                                                name="foto">
+                                        @endif
+
+                                        @error('foto')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="alamat">Alamat</label>
+                                        <textarea rows="2" type="text" name="alamat" class="form-control">{{ old('alamat', $isEdit ? $editUser->alamat : '') }}</textarea>
+                                    </div>
 
 
-                                <div class="col-12">
-                                    <button type="submit" class="btn btn-{{ $isEdit ? 'warning' : 'success' }}">
-                                        {{ $isEdit ? 'Update' : '+ Simpan' }}
-                                    </button>
-                                    @if ($isEdit)
-                                        <a style="color: white;" href="{{ route('user.index') }}"
-                                            class="btn btn-secondary">Batal</a>
-                                    @endif
+                                    <div class="col-12">
+                                        <button type="submit" class="btn btn-{{ $isEdit ? 'warning' : 'success' }}">
+                                            {{ $isEdit ? 'Update' : '+ Simpan' }}
+                                        </button>
+                                        @if ($isEdit)
+                                            <a style="color: white;" href="{{ route('user.index') }}"
+                                                class="btn btn-secondary">Batal</a>
+                                        @endif
+                                    </div>
                                 </div>
-                            </div>
-                        </form>
+                            </form>
                     </div>
                 </div>
-
+            @else
+                @endif
                 {{-- Card Table --}}
                 <div class="card">
                     <div class="card-header">
                         <h2 class="card-title" style="font-size: 25px;">Tables User Admin</h2><br>
-                        <a style="color:white;" class="btn btn-info" href="{{ route('user.laporan_admin') }}">
-                            <i class="fa fa-save"></i> Laporan</a>
+                        @if (auth()->user()->role == 'admin')
+                            <a style="color:white;" class="btn btn-info" href="{{ route('user.laporan_admin') }}">
+                                <i class="fa fa-save"></i> Laporan</a>
+                        @else
+                        @endif
                     </div>
 
                     <div class="card-body">
@@ -200,7 +188,6 @@
                                     <th>Foto</th>
                                     <th>Name</th>
                                     <th>Email</th>
-                                    <th>Outlet</th>
                                     <th>Jenis Kelamin</th>
                                     <th>Role</th>
                                     <th>Aksi</th>
@@ -223,12 +210,11 @@
                                         </td>
                                         <td>{{ $d->name }}</td>
                                         <td>{{ $d->email }}</td>
-                                        <td>{{ $d->outlet->nama_outlet ?? '-' }}</td>
                                         <td>{{ $d->jenkel }}</td>
                                         <td><span class="btn mb-1 btn-info"><i class="fas fa-info"></i>
                                                 {{ $d->role }}</span></td>
                                         <td>
-                                            @if (auth()->user()->role == 'admin' || auth()->user()->role == 'supervisor')
+                                            @if (auth()->user()->role == 'admin')
                                                 <a style="color: white;" class="btn btn-primary"
                                                     href="{{ route('user.index', ['edit' => $d->id]) }}">
                                                     <i class="fas fa-pencil-alt"></i>
@@ -237,11 +223,11 @@
                                                     data-bs-target="#delete{{ $d->id }}">
                                                     <i class="fas fa-trash-alt"></i>
                                                 </a> |
-                                                <a class="btn btn-success" data-bs-toggle="modal"
-                                                    data-bs-target="#detail{{ $d->id }}">
-                                                    <i class="fas fa-exclamation-circle"></i>
-                                                </a>
                                             @endif
+                                            <a class="btn btn-success" data-bs-toggle="modal"
+                                                data-bs-target="#detail{{ $d->id }}">
+                                                <i class="fas fa-exclamation-circle"></i>
+                                            </a>
                                         </td>
                                     </tr>
 
@@ -330,10 +316,10 @@
 
                                                     <br>
 
-                                                    <label for="outlet_id">Outlet User</label>
+                                                    {{-- <label for="outlet_id">Outlet User</label>
                                                     <input style="background-color:gray; color:white;"
                                                         class="form-control" type="text" id="outlet_id"
-                                                        value="{{ $d->outlet->nama_outlet }}" readonly>
+                                                        value="{{ $d->outlet->nama_outlet }}" readonly> --}}
 
                                                     <br>
 

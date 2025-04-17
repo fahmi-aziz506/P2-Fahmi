@@ -25,7 +25,14 @@ $setting = Setting::with('outlet')->first();
     <meta name="description" content="Modern, flexible and responsive Bootstrap 5 admin &amp; dashboard template">
     <meta name="author" content="Bootlab">
 
-    <title>{{ Auth::user()->role }} | {{ $setting->nama_perusahaan }} | {{ $user->outlet->nama_outlet }}</title>
+    <title>{{ Auth::user()->role }} | {{ $setting->nama_perusahaan }} |
+        @if (isset($user->outlet) && $user->outlet->nama_outlet != '')
+            {{ $user->outlet->nama_outlet }}
+        @else
+            -
+        @endif
+
+    </title>
 
     <link rel="stylesheet" type="text/css" href="{{ asset('form/css/dropify.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('form/css/dropify.min.css') }}">

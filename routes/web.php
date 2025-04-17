@@ -8,6 +8,7 @@ use App\Http\Controllers\DataAlatController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MenuController;
 use App\Http\Controllers\MerkController;
 use App\Http\Controllers\OutletController;
 use App\Http\Controllers\PeminjamanController;
@@ -71,15 +72,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/user/profile', [UserController::class, 'profile'])->name('profile');
     Route::put('/user/profile/{id}', [UserController::class, 'update_profile'])->name('user.update-profile');
 
-
-
     // Route Data Kategori
     Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori.index');
-    Route::get('/kategori/create', [KategoriController::class, 'create'])->name('kategori.create');
     Route::post('kategori/store', [KategoriController::class, 'store'])->name('kategori.store');
-    Route::get('kategori/edit/{id_kategori}', [KategoriController::class, 'edit'])->name('kategori.edit');
     Route::put('kategori/update/{id_kategori}', [KategoriController::class, 'update'])->name('kategori.update');
     Route::delete('kategori/delete/{id_kategori}', [KategoriController::class, 'delete'])->name('kategori.delete');
+
+    // Route Data menu
+    Route::get('/menu', [MenuController::class, 'index'])->name('menu.index');
+    Route::post('menu/store', [MenuController::class, 'store'])->name('menu.store');
+    Route::put('menu/update/{id_menu}', [MenuController::class, 'update'])->name('menu.update');
+    Route::delete('menu/delete/{id_menu}', [MenuController::class, 'delete'])->name('menu.delete');
 
     Route::get('/laporan/user/admin', [LaporanController::class, 'admin'])->name('user.laporan_admin');
     Route::get('/laporan/user/supervisor', [LaporanController::class, 'supervisor'])->name('user.laporan_supervisor');

@@ -7,7 +7,6 @@
                 <th>Foto</th>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Outlet</th>
                 <th>Role</th>
                 <th>Jenis Kelamin</th>
             </tr>
@@ -28,7 +27,6 @@
                     </td>
                     <td>{{ $d->name }}</td>
                     <td>{{ $d->email }}</td>
-                    <td>{{ $d->outlet->nama_outlet }}</td>
                     <td>
                         @if ($d->role == 'admin')
                             <button id="role" class="btn mb-1 btn-info"><i class="fas fa-info"

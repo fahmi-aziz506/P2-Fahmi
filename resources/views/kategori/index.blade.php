@@ -163,7 +163,8 @@
                                                     |
                                                     <a style="color: white; "data-bs-toggle="modal"
                                                         data-bs-target="#delete{{ $d->id_kategori }}"
-                                                        class="btn btn-danger"><i class="fas fa-fw fa-trash-alt"></i></a>|
+                                                        class="btn btn-danger"><i class="fas fa-fw fa-trash-alt"></i></a>
+                                                    |
                                                     <a class="btn btn-success" data-bs-toggle="modal"
                                                         data-bs-target="#detail{{ $d->id_kategori }}">
                                                         <i class="fas fa-exclamation-circle"></i>

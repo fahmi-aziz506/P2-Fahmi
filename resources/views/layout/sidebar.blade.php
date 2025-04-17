@@ -36,7 +36,12 @@ $setting = Setting::with('outlet')->first();
         <img style="width: 50px; height: 50px; background-size:cover;"
             src="{{ asset('storage/logo_perusahaan/' . $setting->path_logo) }}" class="img-fluid rounded-circle mb-2" />
         <span style="position: relative; right: -6px; color:white; font-size:15px;">{{ $setting->nama_perusahaan }} |
-            {{ $user->outlet->nama_outlet }}</span>
+            @if (isset($user->outlet) && $user->outlet->nama_outlet != '')
+                {{ $user->outlet->nama_outlet }}
+            @else
+                <span>-</span>
+            @endif
+        </span>
     </a>
 
     <div class="sidebar-content">
@@ -97,10 +102,21 @@ $setting = Setting::with('outlet')->first();
 
             <li class="sidebar-header"> Menu Kategori </li>
 
+            @if (auth()->user()->role == 'admin')
+                <li class="sidebar-item ">
+                    <a class='sidebar-link menu-item {{ request()->is('outlet') ? 'active' : '' }}'
+                        href='{{ route('outlet.index') }}'>
+                        <i class="align-middle me-2 far fa-fw fa-user-circle"></i> <span
+                            class="align-middle">Outlet</span>
+                    </a>
+                </li>
+            @else
+            @endif
+
             <li class="sidebar-item ">
-                <a class='sidebar-link menu-item {{ request()->is('outlet') ? 'active' : '' }}'
-                    href='{{ route('outlet.index') }}'>
-                    <i class="align-middle me-2 far fa-fw fa-user-circle"></i> <span class="align-middle">Outlet</span>
+                <a class='sidebar-link menu-item {{ request()->is('menu') ? 'active' : '' }}'
+                    href='{{ route('menu.index') }}'>
+                    <i class="align-middle me-2 far fa-fw fa-user-circle"></i> <span class="align-middle">Menu</span>
                 </a>
             </li>
 

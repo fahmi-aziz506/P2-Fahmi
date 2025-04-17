@@ -1,75 +1,90 @@
 @extends('laporan.index')
+
 @section('laporan')
-    <table id="datatables-reponsive-1" class="table table-striped" style="width:100%">
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Foto</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Outlet</th>
-                <th>Role</th>
-                <th>Jenis Kelamin</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($user as $d)
+
+    {{-- Form Pilih Outlet untuk Admin --}}
+    @if (auth()->user()->role == 'admin')
+        <div class="no-print">
+            <form action="{{ route('user.laporan_pelanggan') }}" method="GET" class="mb-4">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="outlet_id">Pilih Outlet</label>
+                        <select name="outlet_id" id="outlet_id" class="form-control" required>
+                            <option value="">-- Pilih Outlet --</option>
+                            @foreach ($outlets as $outlet)
+                                <option value="{{ $outlet->id_outlet }}"
+                                    {{ isset($selectedOutlet) && $selectedOutlet == $outlet->id_outlet ? 'selected' : '' }}>
+                                    {{ $outlet->nama_outlet }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-4 align-self-end">
+                        <button type="submit" class="btn btn-primary">Tampilkan</button>
+                        <a class="btn btn-secondary text-light" href="{{ route('user.index_pelanggan') }}">Kembali</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    @endif
+
+    {{-- Tabel Hasil --}}
+    @if (count($user) > 0)
+        <table id="datatables-reponsive-1" class="table table-striped" style="width:100%">
+            <thead>
                 <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    <td>
-                        @php
-                            $default = asset('form/img/avatars/avatars-default.png');
-                            $foto =
-                                !$d->foto || $d->foto == '0' || $d->foto == 'null'
-                                    ? $default
-                                    : asset('storage/foto_user/' . $d->foto);
-                        @endphp
-                        <img src="{{ $foto }}" style="width:50px; height:50px; border-radius:50%;">
-                    </td>
-                    <td>{{ $d->name }}</td>
-                    <td>{{ $d->email }}</td>
-                    <td>{{ $d->outlet->nama_outlet }}</td>
-                    <td>
-                        @if ($d->role == 'admin')
-                            <button id="role" class="btn mb-1 btn-info"><i class="fas fa-info"
-                                    style="position: relative; left: -3px;"></i>
-                                {{ $d->role }} </button>
-                        @endif
+                    <th>No</th>
+                    <th>Foto</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Outlet</th>
+                    <th>Role</th>
+                    <th>Jenis Kelamin</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($user as $d)
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>
+                            @php
+                                $default = asset('form/img/avatars/avatars-default.png');
+                                $foto =
+                                    !$d->foto || $d->foto == '0' || $d->foto == 'null'
+                                        ? $default
+                                        : asset('storage/foto_user/' . $d->foto);
+                            @endphp
+                            <img src="{{ $foto }}" style="width:50px; height:50px; border-radius:50%;">
+                        </td>
+                        <td>{{ $d->name }}</td>
+                        <td>{{ $d->email }}</td>
+                        <td>{{ $d->outlet->nama_outlet ?? '-' }}</td>
+                        <td>
+                            <button
+                                class="btn mb-1 btn-{{ $d->role == 'admin'
+                                    ? 'info'
+                                    : ($d->role == 'supervisor'
+                                        ? 'secondary'
+                                        : ($d->role == 'kitchen'
+                                            ? 'warning'
+                                            : ($d->role == 'kasir'
+                                                ? 'primary'
+                                                : ($d->role == 'waiter'
+                                                    ? 'danger'
+                                                    : 'success')))) }}">
+                                <i class="fas fa-smile" style="position: relative; left: -3px;"></i>
+                                {{ $d->role }}
+                            </button>
+                        </td>
+                        <td>{{ $d->jenkel }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+        <p class="no-print">Menampilkan {{ $user->firstItem() }} - {{ $user->lastItem() }} dari total
+            {{ $user->total() }} kasir</p>
+    @else
+        <p class="text-muted">Silakan pilih outlet terlebih dahulu untuk menampilkan data.</p>
+    @endif
 
-                        @if ($d->role == 'supervisor')
-                            <button id="role" class="btn mb-1 btn-secondary"><i class="fas fa-check"
-                                    style="position: relative; left: -3px;"></i>
-                                {{ $d->role }} </button>
-                        @endif
-
-                        @if ($d->role == 'kitchen')
-                            <button id="role" class="btn mb-1 btn-warning"><i class="fas fa-smile"
-                                    style="position: relative; left: -3px;"></i>
-                                {{ $d->role }} </button>
-                        @endif
-
-                        @if ($d->role == 'kasir')
-                            <button id="role" class="btn mb-1 btn-primary"><i class="fas fa-smile"
-                                    style="position: relative; left: -3px;"></i>
-                                {{ $d->role }} </button>
-                        @endif
-
-                        @if ($d->role == 'waiter')
-                            <button id="role" class="btn mb-1 btn-danger"><i class="fas fa-smile"
-                                    style="position: relative; left: -3px;"></i>
-                                {{ $d->role }} </button>
-                        @endif
-
-                        @if ($d->role == 'pelanggan')
-                            <button id="role" class="btn mb-1 btn-success"><i class="fas fa-exclamation"
-                                    style="position: relative; left: -3px;"></i>
-                                {{ $d->role }} </button>
-                        @endif
-                    </td>
-                    <td>{{ $d->jenkel }}</td>
-            @endforeach
-
-        </tbody>
-    </table>
-    {{ $paginate->links() }}
 @endsection
