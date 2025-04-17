@@ -97,15 +97,15 @@
 
                                 <div class="col-md-3">
                                     <label for="role">Role</label>
-                                    <select name="role" class="form-control">
-                                        <option value="">Pilih Role</option>
-                                        @foreach (['pelanggan'] as $role)
-                                            <option value="{{ $role }}"
-                                                {{ old('role', $isEdit ? $editUser->role : '') == $role ? 'selected' : '' }}>
-                                                {{ ucfirst($role) }}
-                                            </option>
-                                        @endforeach
+
+                                    {{-- Select-nya disable agar tidak bisa diubah --}}
+                                    <select class="form-control" disabled>
+                                        <option value="pelanggan" selected>{{ ucfirst('pelanggan') }}</option>
                                     </select>
+
+                                    {{-- Hidden input untuk tetap mengirim value ke server --}}
+                                    <input type="hidden" name="role" value="pelanggan">
+
                                     @error('role')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
@@ -113,7 +113,7 @@
 
                                 <div class="col-md-3">
                                     <label for="outlet_id">Outlet</label>
-                                    @if (auth()->user()->role == 'admin')
+                                    @if (auth()->user()->role == '')
                                         <select name="outlet_id" class="form-control">
                                             <option value="">Pilih Outlet</option>
                                             @foreach ($outlet as $out)

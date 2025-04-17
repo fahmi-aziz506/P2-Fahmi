@@ -22,6 +22,14 @@ class OutletSeeder extends Seeder
                 'provinsi_perusahaan' => 'Provinsi Contoh',
                 'kode_pos' => '12345',
             ],
+            [
+                'nama_outlet' => 'Outlet Bandung',
+                'alamat' => 'Jl. Contoh No. 1',
+                'kecamatan_perusahaan' => 'Kecamatan Contoh',
+                'kota_perusahaan' => 'Kota Contoh',
+                'provinsi_perusahaan' => 'Provinsi Contoh',
+                'kode_pos' => '12345',
+            ],
 
         ];
 

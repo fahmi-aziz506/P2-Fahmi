@@ -10,12 +10,33 @@ use Illuminate\Http\Request;
 class LaporanController extends Controller
 {
 
-    public function admin()
+    public function admin(Request $request)
     {
-        $paginate = User::paginate(9);
-        $user = User::with('outlet')->where('role', 'admin')->get();
+        $outlets = \App\Models\Outlet::all();
+        $selectedOutlet = $request->outlet_id;
 
-        return view('user.laporan_admin', compact('user', 'paginate'));
+        // Jika user 
+        if (auth()->user()->role == '') {
+            if ($selectedOutlet) {
+                $user = User::with('outlet')
+                    ->where('role', 'admin')
+                    ->where('outlet_id', $selectedOutlet)
+                    ->paginate(10); // PAGINATE langsung
+
+            } else {
+                $user = collect(); // kosong, tapi biar aman di view
+            }
+        } else {
+            // Jika bukan , tampilkan data sesuai outlet miliknya
+            $user = User::with('outlet')
+                ->where('role', 'admin')
+                ->where('outlet_id', auth()->user()->outlet_id)
+                ->paginate(10); // PAGINATE juga di sini
+
+            $selectedOutlet = auth()->user()->outlet_id;
+        }
+
+        return view('user.laporan_admin', compact('user', 'outlets', 'selectedOutlet'));
     }
 
     public function supervisor(Request $request)
@@ -23,8 +44,8 @@ class LaporanController extends Controller
         $outlets = \App\Models\Outlet::all();
         $selectedOutlet = $request->outlet_id;
 
-        // Jika user admin
-        if (auth()->user()->role == 'admin') {
+        // Jika user 
+        if (auth()->user()->role == '') {
             if ($selectedOutlet) {
                 $user = User::with('outlet')
                     ->where('role', 'supervisor')
@@ -35,7 +56,7 @@ class LaporanController extends Controller
                 $user = collect(); // kosong, tapi biar aman di view
             }
         } else {
-            // Jika bukan admin, tampilkan data sesuai outlet miliknya
+            // Jika bukan , tampilkan data sesuai outlet miliknya
             $user = User::with('outlet')
                 ->where('role', 'supervisor')
                 ->where('outlet_id', auth()->user()->outlet_id)
@@ -52,8 +73,8 @@ class LaporanController extends Controller
         $outlets = \App\Models\Outlet::all();
         $selectedOutlet = $request->outlet_id;
 
-        // Jika user admin
-        if (auth()->user()->role == 'admin') {
+        // Jika user 
+        if (auth()->user()->role == '') {
             if ($selectedOutlet) {
                 $user = User::with('outlet')
                     ->where('role', 'kitchen')
@@ -64,7 +85,7 @@ class LaporanController extends Controller
                 $user = collect(); // kosong, tapi biar aman di view
             }
         } else {
-            // Jika bukan admin, tampilkan data sesuai outlet miliknya
+            // Jika bukan , tampilkan data sesuai outlet miliknya
             $user = User::with('outlet')
                 ->where('role', 'kitchen')
                 ->where('outlet_id', auth()->user()->outlet_id)
@@ -81,8 +102,8 @@ class LaporanController extends Controller
         $outlets = \App\Models\Outlet::all();
         $selectedOutlet = $request->outlet_id;
 
-        // Jika user admin
-        if (auth()->user()->role == 'admin') {
+        // Jika user 
+        if (auth()->user()->role == '') {
             if ($selectedOutlet) {
                 $user = User::with('outlet')
                     ->where('role', 'kasir')
@@ -93,7 +114,7 @@ class LaporanController extends Controller
                 $user = collect(); // kosong, tapi biar aman di view
             }
         } else {
-            // Jika bukan admin, tampilkan data sesuai outlet miliknya
+            // Jika bukan , tampilkan data sesuai outlet miliknya
             $user = User::with('outlet')
                 ->where('role', 'kasir')
                 ->where('outlet_id', auth()->user()->outlet_id)
@@ -111,8 +132,8 @@ class LaporanController extends Controller
         $outlets = \App\Models\Outlet::all();
         $selectedOutlet = $request->outlet_id;
 
-        // Jika user admin
-        if (auth()->user()->role == 'admin') {
+        // Jika user 
+        if (auth()->user()->role == '') {
             if ($selectedOutlet) {
                 $user = User::with('outlet')
                     ->where('role', 'waiter')
@@ -123,7 +144,7 @@ class LaporanController extends Controller
                 $user = collect(); // kosong, tapi biar aman di view
             }
         } else {
-            // Jika bukan admin, tampilkan data sesuai outlet miliknya
+            // Jika bukan , tampilkan data sesuai outlet miliknya
             $user = User::with('outlet')
                 ->where('role', 'waiter')
                 ->where('outlet_id', auth()->user()->outlet_id)
@@ -140,8 +161,8 @@ class LaporanController extends Controller
         $outlets = \App\Models\Outlet::all();
         $selectedOutlet = $request->outlet_id;
 
-        // Jika user admin
-        if (auth()->user()->role == 'admin') {
+        // Jika user 
+        if (auth()->user()->role == '') {
             if ($selectedOutlet) {
                 $user = User::with('outlet')
                     ->where('role', 'pelanggan')
@@ -152,7 +173,7 @@ class LaporanController extends Controller
                 $user = collect(); // kosong, tapi biar aman di view
             }
         } else {
-            // Jika bukan admin, tampilkan data sesuai outlet miliknya
+            // Jika bukan , tampilkan data sesuai outlet miliknya
             $user = User::with('outlet')
                 ->where('role', 'pelanggan')
                 ->where('outlet_id', auth()->user()->outlet_id)

@@ -30,6 +30,18 @@ class DummyUsersSeeder extends Seeder
             ]
         );
 
+        $namaOutlet2 = 'Outlet Bandung';
+        $outlet2 = outlet::firstOrCreate(
+            ['nama_outlet' => $namaOutlet2],
+            [
+                'alamat' => 'Jl. Contoh No. 1',
+                'kecamatan_perusahaan' => 'Kecamatan Contoh',
+                'kota_perusahaan' => 'Kota Contoh',
+                'provinsi_perusahaan' => 'Provinsi Contoh',
+                'kode_pos' => '12345',
+            ]
+        );
+
         $userData = [
             [
                 'name'      => 'mas admin',
@@ -39,6 +51,7 @@ class DummyUsersSeeder extends Seeder
                 'password'  => bcrypt('12345678'),
                 'telepon'   => '099',
                 'foto'      => '0',
+                'outlet_id' => $outlet->id_outlet,
             ],
             [
                 'name'      => 'mas supervisor',
@@ -89,6 +102,66 @@ class DummyUsersSeeder extends Seeder
                 'telepon'   => '099',
                 'foto'      => '0',
                 'outlet_id' => $outlet->id_outlet,
+            ],
+            [
+                'name'      => 'mas admin1',
+                'email'     => 'admin1@gmail.com',
+                'alamat'    => 'Jalanin aja dulu',
+                'role'      => 'admin',
+                'password'  => bcrypt('12345678'),
+                'telepon'   => '099',
+                'foto'      => '0',
+                'outlet_id' => $outlet2->id_outlet,
+            ],
+            [
+                'name'      => 'mas supervisor1',
+                'email'     => 'supervisor1@gmail.com',
+                'alamat'    => 'Jalanin aja dulu',
+                'role'      => 'supervisor',
+                'password'  => bcrypt('12345678'),
+                'telepon'   => '099',
+                'foto'      => '0',
+                'outlet_id' => $outlet2->id_outlet,
+            ],
+            [
+                'name'      => 'mas kitchen1',
+                'email'     => 'kitchen1@gmail.com',
+                'alamat'    => 'Jalanin aja dulu',
+                'role'      => 'kitchen',
+                'password'  => bcrypt('12345678'),
+                'telepon'   => '099',
+                'foto'      => '0',
+                'outlet_id' => $outlet2->id_outlet,
+            ],
+            [
+                'name'      => 'mas pelanggan1',
+                'email'     => 'pelanggan1@gmail.com',
+                'alamat'    => 'Jalanin aja dulu',
+                'role'      => 'pelanggan',
+                'password'  => bcrypt('12345678'),
+                'telepon'   => '099',
+                'foto'      => '0',
+                'outlet_id' => $outlet2->id_outlet,
+            ],
+            [
+                'name'      => 'mas waiter1',
+                'email'     => 'waiter1@gmail.com',
+                'alamat'    => 'Jalanin aja dulu',
+                'role'      => 'waiter',
+                'password'  => bcrypt('12345678'),
+                'telepon'   => '099',
+                'foto'      => '0',
+                'outlet_id' => $outlet2->id_outlet,
+            ],
+            [
+                'name'      => 'mas kasir1',
+                'email'     => 'kasir1@gmail.com',
+                'alamat'    => 'Jalanin aja dulu',
+                'role'      => 'kasir',
+                'password'  => bcrypt('12345678'),
+                'telepon'   => '099',
+                'foto'      => '0',
+                'outlet_id' => $outlet2->id_outlet,
             ],
         ];
 

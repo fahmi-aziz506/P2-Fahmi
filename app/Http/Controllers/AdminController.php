@@ -63,4 +63,9 @@ class AdminController extends Controller
     {
         return view('waiter.index');
     }
+
+    public function kasir()
+    {
+        return view('kasir.index');
+    }
 }

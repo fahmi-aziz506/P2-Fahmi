@@ -98,16 +98,39 @@
 
                                     <div class="col-md-4">
                                         <label for="role">Role</label>
-                                        <select name="role" class="form-control">
-                                            <option value="">Pilih Role</option>
-                                            @foreach (['admin'] as $role)
-                                                <option value="{{ $role }}"
-                                                    {{ old('role', $isEdit ? $editUser->role : '') == $role ? 'selected' : '' }}>
-                                                    {{ ucfirst($role) }}
-                                                </option>
-                                            @endforeach
+
+                                        {{-- Select-nya disable agar tidak bisa diubah --}}
+                                        <select class="form-control" disabled>
+                                            <option value="admin" selected>{{ ucfirst('admin') }}</option>
                                         </select>
+
+                                        {{-- Hidden input untuk tetap mengirim value ke server --}}
+                                        <input type="hidden" name="role" value="admin">
+
                                         @error('role')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+
+
+                                    <div class="col-md-3">
+                                        <label for="outlet_id">Outlet</label>
+                                        @if (auth()->user()->role == '')
+                                            <select name="outlet_id" class="form-control">
+                                                <option value="">Pilih Outlet</option>
+                                                @foreach ($outlet as $out)
+                                                    <option value="{{ $out->id_outlet }}"
+                                                        {{ old('outlet_id', $isEdit ? $editUser->outlet_id : '') == $out->id_outlet ? 'selected' : '' }}>
+                                                        {{ $out->nama_outlet }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        @else
+                                            <input type="hidden" name="outlet_id" value="{{ auth()->user()->outlet_id }}">
+                                            <input type="text" class="form-control bg-secondary text-white"
+                                                value="{{ auth()->user()->outlet->nama_outlet }}" readonly>
+                                        @endif
+                                        @error('outlet_id')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
@@ -189,6 +212,7 @@
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Jenis Kelamin</th>
+                                    <th>Outlet</th>
                                     <th>Role</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -211,6 +235,7 @@
                                         <td>{{ $d->name }}</td>
                                         <td>{{ $d->email }}</td>
                                         <td>{{ $d->jenkel }}</td>
+                                        <td>{{ $d->outlet->nama_outlet }}</td>
                                         <td><span class="btn mb-1 btn-info"><i class="fas fa-info"></i>
                                                 {{ $d->role }}</span></td>
                                         <td>

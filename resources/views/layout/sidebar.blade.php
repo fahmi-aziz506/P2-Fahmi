@@ -143,11 +143,13 @@ $setting = Setting::with('outlet')->first();
                             User</span>
                     </a>
                     <ul id="pages" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
-                        <li class="sidebar-item">
-                            <a class='sidebar-link menu-item {{ request()->is('user') ? 'active' : '' }}'
-                                href='{{ route('user.index') }}'><span class="align-middle">User
-                                    Admin</span></a>
-                        </li>
+                        @if (auth()->user()->role == 'admin')
+                            <li class="sidebar-item">
+                                <a class='sidebar-link menu-item {{ request()->is('user') ? 'active' : '' }}'
+                                    href='{{ route('user.index') }}'><span class="align-middle">User
+                                        Admin</span></a>
+                            </li>
+                        @endif
 
                         <li class="sidebar-item">
                             <a class='sidebar-link menu-item {{ request()->is('user_supervisor') ? 'active' : '' }}'

@@ -15,11 +15,23 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        $user = User::with('outlet')->where('role', 'admin')->get();
-        $outlet = Outlet::all();
+        // Ambil outlet yang terkait dengan admin yang sedang login
+        $outlet_id = auth()->user()->outlet_id; // Asumsi outlet_id ada di user yang login
 
+        // Jika user adalah , tampilkan semua data user
+        if (auth()->user()->role == '') {
+            $user = User::with('outlet')->where('role', 'admin')->get();
+        } else {
+            // Jika admin, filter berdasarkan outlet_id
+            $user = User::with('outlet')->where('role', 'admin')
+                ->where('outlet_id', $outlet_id) // Filter berdasarkan outlet yang sama
+                ->get();
+        }
+
+        $outlet = Outlet::all(); // Data outlet untuk dropdown atau filter lainnya
         $editUser = null;
 
+        // Cek apakah ada parameter 'edit' di URL
         if ($request->has('edit')) {
             $editUser = User::find($request->edit);
         }
@@ -32,8 +44,8 @@ class UserController extends Controller
         // Ambil outlet yang terkait dengan supervisor yang sedang login
         $outlet_id = auth()->user()->outlet_id; // Asumsi outlet_id ada di user yang login
 
-        // Jika user adalah admin, tampilkan semua data user
-        if (auth()->user()->role == 'admin') {
+        // Jika user adalah , tampilkan semua data user
+        if (auth()->user()->role == '') {
             $user = User::with('outlet')->where('role', 'supervisor')->get();
         } else {
             // Jika supervisor, filter berdasarkan outlet_id
@@ -58,8 +70,8 @@ class UserController extends Controller
         // Ambil outlet yang terkait dengan kitchen yang sedang login
         $outlet_id = auth()->user()->outlet_id; // Asumsi outlet_id ada di user yang login
 
-        // Jika user adalah admin, tampilkan semua data user
-        if (auth()->user()->role == 'admin') {
+        // Jika user adalah , tampilkan semua data user
+        if (auth()->user()->role == '') {
             $user = User::with('outlet')->where('role', 'kitchen')->get();
         } else {
             // Jika kitchen, filter berdasarkan outlet_id
@@ -84,8 +96,8 @@ class UserController extends Controller
         // Ambil outlet yang terkait dengan kasir yang sedang login
         $outlet_id = auth()->user()->outlet_id; // Asumsi outlet_id ada di user yang login
 
-        // Jika user adalah admin, tampilkan semua data user
-        if (auth()->user()->role == 'admin') {
+        // Jika user adalah , tampilkan semua data user
+        if (auth()->user()->role == '') {
             $user = User::with('outlet')->where('role', 'kasir')->get();
         } else {
             // Jika kasir, filter berdasarkan outlet_id
@@ -110,8 +122,8 @@ class UserController extends Controller
         // Ambil outlet yang terkait dengan waiter yang sedang login
         $outlet_id = auth()->user()->outlet_id; // Asumsi outlet_id ada di user yang login
 
-        // Jika user adalah admin, tampilkan semua data user
-        if (auth()->user()->role == 'admin') {
+        // Jika user adalah , tampilkan semua data user
+        if (auth()->user()->role == '') {
             $user = User::with('outlet')->where('role', 'waiter')->get();
         } else {
             // Jika waiter, filter berdasarkan outlet_id
@@ -137,8 +149,8 @@ class UserController extends Controller
         // Ambil outlet yang terkait dengan pelanggan yang sedang login
         $outlet_id = auth()->user()->outlet_id; // Asumsi outlet_id ada di user yang login
 
-        // Jika user adalah admin, tampilkan semua data user
-        if (auth()->user()->role == 'admin') {
+        // Jika user adalah , tampilkan semua data user
+        if (auth()->user()->role == '') {
             $user = User::with('outlet')->where('role', 'pelanggan')->get();
         } else {
             // Jika pelanggan, filter berdasarkan outlet_id

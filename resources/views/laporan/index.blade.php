@@ -37,12 +37,12 @@ $user = DB::table('users')->first();
                         <div class="card-body m-sm-3 m-md-5">
                             <div class="mb-4">
                                 Hello <strong>
-                                    @if ($user->role == 'admin')
+                                    @if (auth()->user()->role == 'admin')
                                         <span class="badge bg-info">Admin</span>
                                     @else
-                                        <span class="success bg-info">Supervisor</span>
+                                        <span class="badge bg-success">Supervisor</span>
                                     @endif
-                                    {{ $user->name }}
+                                    {{ auth()->user()->name }}
                                 </strong> <br>
                                 <div class="col-md-12 text-md-end">
                                     <img style="position: relative; bottom:-10px; border-radius:50%;" width="70px;"
